@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import graphene
+import uuid
 from fastapi import FastAPI
 from starlette.graphql import GraphQLApp
 from graphvl.scalar import Date
@@ -11,6 +12,7 @@ class User(graphene.ObjectType):
     date_of_birth = Date(required=True, description='Born date of user in format of dd-MM-yyyy')
     name = graphene.String(required=True, description='Name of user')
     surname = graphene.String(required=True, description='Surname of user')
+    unique_id = graphene.String(description='Unique id defined by api')
 
 class CreateUser(graphene.Mutation):
     class Arguments:
@@ -23,10 +25,12 @@ class CreateUser(graphene.Mutation):
     user = graphene.Field(lambda: User)
 
     def mutate(root, info, country, date_of_birth, name, surname):
+        unique_id = str(uuid.uuid4())
         user = User(country=country,
                     date_of_birth=date_of_birth,
                     name=name,
-                    surname=surname)
+                    surname=surname,
+                    unique_id=unique_id)
         ok = True
         return CreateUser(user=user, ok=ok)
 
