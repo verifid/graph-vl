@@ -12,3 +12,4 @@ from graphvl.schema import (
 )
 
 from graphvl.core import config
+from graphvl.db.base_class import CustomBase
