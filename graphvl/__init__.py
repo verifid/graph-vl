@@ -10,3 +10,5 @@ from graphvl.schema import (
     Query,
     UserMutation
 )
+
+from graphvl.core import config
