@@ -19,3 +19,4 @@ from graphvl.db import (
 )
 
 from graphvl.models import user
+from graphvl.crud import user
