@@ -18,3 +18,4 @@ from graphvl.db import (
     init_db
 )
 
+from graphvl.models import user
