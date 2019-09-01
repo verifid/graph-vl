@@ -12,10 +12,6 @@ class UserBase(BaseModel):
     country: str = None
 
 
-class UserBaseInDB(UserBase):
-    id: int = None
-
-
 # Properties to receive via API on creation
-class UserCreate(UserBaseInDB):
+class UserCreate(UserBase):
     user_id: str
