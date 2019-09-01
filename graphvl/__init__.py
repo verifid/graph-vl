@@ -31,5 +31,5 @@ from graphvl.db import (
     init_db
 )
 
-from graphvl.models import user
+from graphvl.db_models import models
 from graphvl.crud import user
