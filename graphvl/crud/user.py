@@ -13,7 +13,7 @@ from graphvl.models.user import UserCreate
 
 
 def get(db_session: Session, *, user_id: int) -> Optional[User]:
-    return db_session.query(User).filter(User.id == user_id).first()
+    return db_session.query(User).filter(User.user_id == user_id).first()
 
 
 def get_multi(db_session: Session, *, skip=0, limit=100) -> List[Optional[User]]:
