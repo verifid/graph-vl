@@ -8,7 +8,7 @@ from typing import List, Optional
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
-from graphvl.db_models.user import User
+from graphvl.db_models.models import User
 from graphvl.models.user import UserCreate
 
 
@@ -22,7 +22,7 @@ def get_multi(db_session: Session, *, skip=0, limit=100) -> List[Optional[User]]
 
 def create(db_session: Session, *, user_in: UserCreate) -> User:
     user = User(
-        id=str(uuid.uuid4()),
+        user_id=user_in.user_id,
         name=user_in.name,
         surname=user_in.surname,
         date_of_birth=user_in.date_of_birth,
