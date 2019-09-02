@@ -27,6 +27,9 @@ def extract_metaitem(meta):
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 
+with open('requirements.testing.txt') as f:
+    requirements_testing = f.read().splitlines()
+
 setup(
     name='graph-vl',
     version=extract_metaitem('version'),
@@ -43,6 +46,8 @@ setup(
     include_package_data=True,
     platforms=['Any'],
     install_requires=requirements,
+    setup_requires=['pytest-runner'],
+    tests_require=requirements_testing,
     python_requires='>=3.6',
     keywords='identity, verification, self deployed api, graphql',
     classifiers=[
