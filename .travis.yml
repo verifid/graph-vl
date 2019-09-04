@@ -6,10 +6,12 @@ python:
 services:
   - postgresql
 
+env:
+  - POSTGRES_SERVER=localhost POSTGRES_USER=postgres POSTGRES_DB=postgres
+
 install:
   - pip install -e .
   - pip install -r requirements.testing.txt --upgrade
-  - source ./set_environment_variables.sh env-postgres.env
 
 script:
   - py.test -s -v --cov-report xml --cov=graphvl tests/
