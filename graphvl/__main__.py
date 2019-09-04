@@ -6,12 +6,6 @@ import sys
 import argparse
 
 
-with open('env-postgres.env') as f:
-    for line in f:
-        key, value = line.replace('export ', '', 1).strip().split('=', 1)
-        os.environ[key] = value
-
-
 from graphvl.db import init_db
 
 
@@ -30,4 +24,5 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     if args.table:
+        os.system('source ./set_environment_variables.sh env-postgres.env')
         init_db.init_db()
