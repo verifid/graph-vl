@@ -6,12 +6,6 @@ import os
 import uuid
 
 
-with open('env-postgres.env') as f:
-    for line in f:
-        key, value = line.replace('export ', '', 1).strip().split('=', 1)
-        os.environ[key] = value
-
-
 from graphvl import crud
 from graphvl.db.session import db_session
 from graphvl.models.user import UserCreate

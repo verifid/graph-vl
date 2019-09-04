@@ -4,10 +4,6 @@
 import os
 import graphene
 
-with open('env-postgres.env') as f:
-    for line in f:
-        key, value = line.replace('export ', '', 1).strip().split('=', 1)
-        os.environ[key] = value
 
 from fastapi import FastAPI
 from starlette.graphql import GraphQLApp
