@@ -3,19 +3,18 @@
 
 import unittest
 import os
-import uuid
 
 
 from graphvl import crud
 from graphvl.db.session import db_session
 from graphvl.models.user import UserCreate
+from graphvl.utils import utils
 
 
 class UserTest(unittest.TestCase):
 
     def test_create_user(self):
-        uid_str = uuid.uuid4().urn
-        user_id = uid_str[9:]
+        user_id = utils.create_user_id()
         user_in = UserCreate(user_id=user_id,
                              name='name',
                              surname='surname',

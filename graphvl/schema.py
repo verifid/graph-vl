@@ -2,10 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import graphene
-import uuid
+
+
 from fastapi import FastAPI
 from starlette.graphql import GraphQLApp
 from graphvl.scalar import Date
+from graphvl.utils import utils
 
 class User(graphene.ObjectType):
     country = graphene.String(required=True, description='Living country of user')
@@ -25,12 +27,12 @@ class CreateUser(graphene.Mutation):
     user = graphene.Field(lambda: User)
 
     def mutate(root, info, country, date_of_birth, name, surname):
-        unique_id = str(uuid.uuid4())
+        user_id = utils.create_user_id()
         user = User(country=country,
                     date_of_birth=date_of_birth,
                     name=name,
                     surname=surname,
-                    unique_id=unique_id)
+                    unique_id=user_id)
         ok = True
         return CreateUser(user=user, ok=ok)
 

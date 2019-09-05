@@ -3,20 +3,19 @@
 
 import os
 import unittest
-import uuid
 import base64
 
 from graphvl import crud
 from graphvl.db.session import db_session
 from graphvl.models.user import UserCreate
 from graphvl.models.image import ImageCreate, ImageType
+from graphvl.utils import utils
 
 
 class ImageTest(unittest.TestCase):
 
     def test_create_image(self):
-        uid_str = uuid.uuid4().urn
-        user_id = uid_str[9:]
+        user_id = utils.create_user_id()
         user_in = UserCreate(user_id=user_id,
                              name='name',
                              surname='surname',

@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import uuid
-
 from typing import List, Optional
 
 from fastapi.encoders import jsonable_encoder
