@@ -2,9 +2,15 @@
 # -*- coding: utf-8 -*-
 
 from pydantic import BaseModel
+from enum import Enum
 
 
-class Image(BaseModel):
+class ImageType(Enum):
+    identity = 1
+    profile = 2
+
+
+class ImageCreate(BaseModel):
     image_id: int = None
     user_id: str = None
     image_str: str = None

@@ -36,4 +36,7 @@ from graphvl.models import (
     user,
     image
 )
-from graphvl.crud import user
+from graphvl.crud import (
+    user,
+    image
+)

@@ -9,16 +9,13 @@ import uuid
 from graphvl import crud
 from graphvl.db.session import db_session
 from graphvl.models.user import UserCreate
-from graphvl.db import init_db
-
-
-init_db.init_db()
 
 
 class UserTest(unittest.TestCase):
 
-    def test_create(self):
-        user_id = str(uuid.uuid4)
+    def test_create_user(self):
+        uid_str = uuid.uuid4().urn
+        user_id = uid_str[9:]
         user_in = UserCreate(user_id=user_id,
                              name='name',
                              surname='surname',
