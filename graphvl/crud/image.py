@@ -9,6 +9,10 @@ from sqlalchemy.orm import Session
 from graphvl.db_models.models import Image
 from graphvl.models.image import ImageCreate
 
+def get(db_session: Session, *, user_id: int) -> Optional[Image]:
+    return db_session.query(Image).filter(Image.user_id == user_id).first()
+
+
 def create(db_session: Session, *, image_in: ImageCreate) -> ImageCreate:
     image = Image(
         image_id=image_in.image_id,

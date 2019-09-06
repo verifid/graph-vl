@@ -26,12 +26,16 @@ class ImageTest(unittest.TestCase):
         with open(image_path, 'rb') as imageFile:
             image_str = base64.b64encode(imageFile.read()).decode('utf-8')
         image_in = ImageCreate(
-            image_id=1,
             user_id=user_id,
             image_str=image_str,
             image_type=ImageType.identity.value
         )
         crud.image.create(db_session, image_in=image_in)
+        image_out = crud.image.get(db_session, user_id=user_id)
+        self.assertIsNotNone(image_out)
+        self.assertEqual(image_out.user_id, user_id)
+        self.assertEqual(image_out.image_str, image_str)
+        self.assertEqual(image_out.image_type, ImageType.identity.value)
 
 if __name__ == '__main__':
     suite = ImageTest()
