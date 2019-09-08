@@ -34,7 +34,7 @@ class CreateUser(graphene.Mutation):
     ok = graphene.Boolean()
     user = graphene.Field(lambda: User)
 
-    def mutate(root, info, country, date_of_birth, name, surname):
+    def mutate(self, info, country, date_of_birth, name, surname):
         user_id = utils.create_user_id()
         date = date_of_birth.strftime('%d/%m/%Y')
         user_in = UserCreate(user_id=user_id,
@@ -51,5 +51,37 @@ class UserMutation(graphene.ObjectType):
     create_user = CreateUser.Field()
 
 
-class Query(graphene.ObjectType):
+class UserQuery(graphene.ObjectType):
     user = graphene.Field(User, description='User object')
+
+
+class Image(graphene.ObjectType):
+    user_id = graphene.String(required=True, description='UserId created with a new user')
+    image_str = graphene.String(required=True, description='Base64 encoded binary string of image')
+    image_type = graphene.Int(required=True, description='Image file type identity = 1, profile = 2')
+
+
+class CreateImage(graphene.Mutation):
+    class Arguments:
+        user_id = graphene.String(required=True, description='UserId created with a new user')
+        image_str = graphene.String(required=True, description='Base64 encoded binary string of image')
+        image_type = graphene.Int(required=True, description='Image file type identity = 1, profile = 2')
+
+    ok = graphene.Boolean()
+    image = graphene.Field(lambda: Image)
+
+    def mutate(self, info, user_id, image_str, image_type):
+        image_in = CreateImage(user_id=user_id,
+                               image_str=image_str,
+                               image_type=image_type)
+        image = crud.image.create(db_session, image_in=image_in)
+        ok = True
+        return CreateImage(image=image, ok=ok)
+
+
+class ImageMutation(graphene.ObjectType):
+    create_image = CreateImage.Field()
+
+
+class ImageQuery(graphene.ObjectType):
+    image = graphene.Field(Image, description='Image object')

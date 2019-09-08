@@ -20,8 +20,10 @@ from graphvl import (
 )
 
 from graphvl.schema import (
-    Query,
-    UserMutation
+    UserQuery,
+    UserMutation,
+    ImageQuery,
+    ImageMutation
 )
 
 from graphvl.core import config
