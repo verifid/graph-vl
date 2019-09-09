@@ -13,4 +13,4 @@ from graphvl.schema import UserMutation, ImageMutation
 
 
 app = FastAPI()
-app.add_route("/", GraphQLApp(schema=graphene.Schema(query=Query, mutation=UserMutation)))
+app.add_route("/", GraphQLApp(schema=graphene.Schema(query=UserQuery, mutation=UserMutation)))
