@@ -1,0 +1,4 @@
+[paths]
+source = graphvl/
+[run]
+omit = graphvl/__main__.py
