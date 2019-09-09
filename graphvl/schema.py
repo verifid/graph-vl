@@ -10,6 +10,7 @@ from starlette.graphql import GraphQLApp
 from graphvl.scalar import Date
 from graphvl.utils import utils
 from graphvl.models.user import UserCreate
+from graphvl.models.image import ImageCreate
 from graphvl import crud
 from graphvl.db.session import db_session
 
@@ -71,7 +72,7 @@ class CreateImage(graphene.Mutation):
     image = graphene.Field(lambda: Image)
 
     def mutate(self, info, user_id, image_str, image_type):
-        image_in = CreateImage(user_id=user_id,
+        image_in = ImageCreate(user_id=user_id,
                                image_str=image_str,
                                image_type=image_type)
         image = crud.image.create(db_session, image_in=image_in)
