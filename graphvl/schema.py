@@ -10,7 +10,7 @@ from starlette.graphql import GraphQLApp
 from graphvl.scalar import Date
 from graphvl.utils import utils
 from graphvl.models.user import UserCreate
-from graphvl.models.image import ImageCreate
+from graphvl.models.image import ImageCreate, ImageType
 from graphvl import crud
 from graphvl.db.session import db_session
 
@@ -66,7 +66,7 @@ class CreateImage(graphene.Mutation):
     class Arguments:
         user_id = graphene.String(required=True, description='UserId created with a new user')
         image_str = graphene.String(required=True, description='Base64 encoded binary string of image')
-        image_type = graphene.Int(required=True, description='Image file type identity = 1, profile = 2')
+        image_type = graphene.Enum.from_enum(ImageType)(required=True, description='Image file type identity = 1, profile = 2')
 
     ok = graphene.Boolean()
     image = graphene.Field(lambda: Image)

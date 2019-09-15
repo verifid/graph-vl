@@ -63,10 +63,10 @@ class SchemaTest(unittest.TestCase):
         schema = graphene.Schema(query=ImageQuery, mutation=ImageMutation)
         client = Client(schema)
         executed = client.execute('''mutation {
-                                        createImage(imageStr: "txt", imageType: 1, userId: "%s") {
+                                        createImage(imageStr: "txt", imageType: identity, userId: "%s") {
                                             ok
                                             image {
-                                            userId
+                                                userId
                                             }
                                         }
                                     }''' % user_id)
