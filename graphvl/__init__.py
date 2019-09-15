@@ -45,3 +45,4 @@ from graphvl.crud import (
 )
 
 from graphvl.utils import utils
+from graphvl.router import api_router
