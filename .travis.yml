@@ -15,5 +15,5 @@ install:
   - python -m graphvl -t
 
 script:
-  - py.test -s -v --cov-report xml --cov=graphvl tests/
+  - py.test -s -vv --cov-report xml --cov=graphvl tests/
   - codecov
