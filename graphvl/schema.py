@@ -86,3 +86,23 @@ class ImageMutation(graphene.ObjectType):
 
 class ImageQuery(graphene.ObjectType):
     image = graphene.Field(Image, description='Image object')
+
+
+class Verify(graphene.Mutation):
+    class Arguments:
+        user_id = graphene.String(required=True, description='UserId created with a new user')
+        language = graphene.String(required=True, description='Language model for verification')
+
+    ok = graphene.Boolean()
+    verify = graphene.Field(lambda: Verify)
+
+    def mutate(self, info, user_id, language):
+        return 'UserId ' + user_id + ' language ' + language
+
+
+class VerifyMutation(graphene.ObjectType):
+    verify = Verify.Field()
+
+
+class VerifyQuery(graphene.ObjectType):
+    verify = graphene.Field(Verify, description='Verify object')
