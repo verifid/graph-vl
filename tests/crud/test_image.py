@@ -31,7 +31,7 @@ class ImageTest(unittest.TestCase):
             image_type=ImageType.identity.value
         )
         crud.image.create(db_session, image_in=image_in)
-        image_out = crud.image.get(db_session, user_id=user_id)
+        image_out = crud.image.get(db_session, user_id=user_id, image_type=image_in.image_type)
         self.assertIsNotNone(image_out)
         self.assertEqual(image_out.user_id, user_id)
         self.assertEqual(image_out.image_str, image_str)

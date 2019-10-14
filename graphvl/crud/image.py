@@ -5,12 +5,13 @@ from typing import List, Optional
 
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
+from sqlalchemy import and_
 
 from graphvl.db_models.models import Image
-from graphvl.models.image import ImageCreate
+from graphvl.models.image import ImageCreate, ImageType
 
-def get(db_session: Session, *, user_id: int) -> Optional[Image]:
-    return db_session.query(Image).filter(Image.user_id == user_id).first()
+def get(db_session: Session, *, user_id: int, image_type: ImageType) -> Optional[Image]:
+    return db_session.query(Image).filter(and_(Image.user_id == user_id, Image.image_type == image_type)).first()
 
 
 def create(db_session: Session, *, image_in: ImageCreate) -> ImageCreate:
