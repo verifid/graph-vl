@@ -9,6 +9,9 @@ class ImageType(Enum):
     identity = 1
     profile = 2
 
+    def __int__(self):
+        return self.value
+
 
 class ImageCreate(BaseModel):
     image_id: int = None

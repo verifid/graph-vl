@@ -10,8 +10,8 @@ from sqlalchemy import and_
 from graphvl.db_models.models import Image
 from graphvl.models.image import ImageCreate, ImageType
 
-def get(db_session: Session, *, user_id: int, image_type: ImageType) -> Optional[Image]:
-    return db_session.query(Image).filter(and_(Image.user_id == user_id, Image.image_type == image_type)).first()
+def get(db_session: Session, *, user_id: str, image_type: ImageType) -> Optional[Image]:
+    return db_session.query(Image).filter(and_(Image.user_id == user_id, Image.image_type == image_type.__int__())).first()
 
 
 def create(db_session: Session, *, image_in: ImageCreate) -> ImageCreate:
