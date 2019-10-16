@@ -44,5 +44,9 @@ from graphvl.crud import (
     image
 )
 
-from graphvl.utils import utils
+from graphvl.utils import (
+    utils,
+    verification_utils
+)
+
 from graphvl.router import api_router

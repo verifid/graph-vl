@@ -6,14 +6,11 @@ import graphene
 import base64
 import cv2
 
-from mocr import face_detection
-from mocr import TextRecognizer
-
 from fastapi import FastAPI
 from starlette.graphql import GraphQLApp
 
 from graphvl.scalar import Date
-from graphvl.utils import utils
+from graphvl.utils import utils, verification_utils
 from graphvl.models.user import UserCreate
 from graphvl.models.image import ImageCreate, ImageType
 from graphvl import crud
@@ -93,50 +90,6 @@ class ImageQuery(graphene.ObjectType):
     image = graphene.Field(Image, description='Image object')
 
 
-def create_image_file(user_id, image_type):
-    image = crud.image.get(db_session, user_id=user_id, image_type=image_type)
-    if image:
-        photo_data = base64.b64decode(image.image_str)
-
-        if image_type == ImageType.identity:
-            path = 'identity/'
-        else:
-            path = 'profile/'
-
-        directory = os.getcwd() + '/testsets/' + path +  user_id + '/'
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-        file_path = directory + 'image' + '.jpg'
-        with open(file_path, 'wb') as f:
-            f.write(photo_data)
-
-        # detect face from identity image
-        if image_type == ImageType.identity:
-            face_image = face_detection.detect_face(file_path)
-            face_directory = os.getcwd() + '/testsets/' + 'face/' + user_id + '/'
-            if not os.path.exists(face_directory):
-                os.makedirs(face_directory)
-            cv2.imwrite(face_directory + 'image.jpg', face_image)
-
-
-def get_texts(user_id):
-    image_path = os.getcwd() + '/testsets/' + 'identity' + '/' + user_id + '/' + 'image.jpg'
-    east_path = os.getcwd() + '/graphvl' + '/' + 'text_detection_model/frozen_east_text_detection.pb'
-    text_recognizer = TextRecognizer(image_path, east_path)
-    (image, _, _) = text_recognizer.load_image()
-    (resized_image, ratio_height, ratio_width, _, _) = text_recognizer.resize_image(image, 320, 320)
-    (scores, geometry) = text_recognizer.geometry_score(east_path, resized_image)
-    boxes = text_recognizer.boxes(scores, geometry)
-    results = text_recognizer.get_results(boxes, image, ratio_height, ratio_width)
-    if results:
-        texts = ''
-        for text_bounding_box in results:
-            text = text_bounding_box[1]
-            texts += text + ' '
-        return texts
-    return ''
-
-
 class Verify(graphene.Mutation):
     class Arguments:
         user_id = graphene.String(required=True, description='UserId created with a new user')
@@ -147,8 +100,8 @@ class Verify(graphene.Mutation):
 
     def mutate(self, info, user_id, language):
         user = crud.user.get(db_session, user_id=user_id)
-        create_image_file(user_id=user_id, image_type=ImageType.identity)
-        create_image_file(user_id=user_id, image_type=ImageType.profile)
+        verification_utils.create_image_file(user_id=user_id, image_type=ImageType.identity)
+        verification_utils.create_image_file(user_id=user_id, image_type=ImageType.profile)
         ok = True
         verify = None
 
