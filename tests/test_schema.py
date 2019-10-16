@@ -17,10 +17,12 @@ from graphvl.models.image import ImageType
 
 class SchemaTest(unittest.TestCase):
 
-
-    def test_create_user(self):
+    def create_user(self, include_user_id=False):
         schema = graphene.Schema(query=UserQuery, mutation=UserMutation)
         client = Client(schema)
+        user_id = ''
+        if include_user_id:
+            user_id = 'userId'
         executed = client.execute('''mutation {
                                         createUser(country: "country", dateOfBirth: "01-01-1960", name: "name", surname: "surname") {
                                             ok
@@ -29,9 +31,33 @@ class SchemaTest(unittest.TestCase):
                                                 dateOfBirth
                                                 name
                                                 surname
+                                                %s
                                             }
                                         }
-                                    }''')
+                                    }''' % user_id)
+        return executed
+
+
+    def create_image(self, image_str, image_type, user_id):
+        schema = graphene.Schema(query=ImageQuery, mutation=ImageMutation)
+        client = Client(schema)
+        if image_type == ImageType.identity:
+            image_type = 'identity'
+        else:
+            image_type = 'profile'
+        executed = client.execute('''mutation {
+                                        createImage(imageStr: "%s", imageType: %s, userId: "%s") {
+                                            ok
+                                            image {
+                                                userId
+                                            }
+                                        }
+                                    }''' % (image_str, image_type, user_id))
+        return executed
+
+
+    def test_create_user(self):
+        executed = self.create_user()
         assert executed == {'data':
                                 OrderedDict(
                                     [('createUser',
@@ -48,32 +74,10 @@ class SchemaTest(unittest.TestCase):
 
 
     def test_create_image(self):
-        user_schema = graphene.Schema(query=UserQuery, mutation=UserMutation)
-        user_client = Client(user_schema)
-        executed = user_client.execute('''mutation {
-                                            createUser(country: "country", dateOfBirth: "01-01-1960", name: "name", surname: "surname") {
-                                                ok
-                                                user {
-                                                    country
-                                                    dateOfBirth
-                                                    name
-                                                    surname
-                                                    userId
-                                                }
-                                            }
-                                        }''')
+        executed = self.create_user(include_user_id=True)
         self.assertIsNotNone(executed['data']['createUser']['user'])
         user_id = executed['data']['createUser']['user']['userId']
-        schema = graphene.Schema(query=ImageQuery, mutation=ImageMutation)
-        client = Client(schema)
-        executed = client.execute('''mutation {
-                                        createImage(imageStr: "txt", imageType: identity, userId: "%s") {
-                                            ok
-                                            image {
-                                                userId
-                                            }
-                                        }
-                                    }''' % user_id)
+        executed = self.create_image(image_str='image', image_type=ImageType.identity, user_id=user_id)
         assert executed == {'data':
                                 OrderedDict(
                                     [('createImage',
@@ -86,20 +90,7 @@ class SchemaTest(unittest.TestCase):
 
 
     def test_verify_user(self):
-        user_schema = graphene.Schema(query=UserQuery, mutation=UserMutation)
-        user_client = Client(user_schema)
-        executed = user_client.execute('''mutation {
-                                            createUser(country: "country", dateOfBirth: "01-01-1960", name: "name", surname: "surname") {
-                                                ok
-                                                user {
-                                                    country
-                                                    dateOfBirth
-                                                    name
-                                                    surname
-                                                    userId
-                                                }
-                                            }
-                                        }''')
+        executed = self.create_user(include_user_id=True)
         self.assertIsNotNone(executed['data']['createUser']['user'])
         user_id = executed['data']['createUser']['user']['userId']
         schema = graphene.Schema(query=ImageQuery, mutation=ImageMutation)
@@ -107,16 +98,9 @@ class SchemaTest(unittest.TestCase):
 
         image_path = os.path.dirname(os.path.realpath(__file__)) + '/resources/sample_uk_identity_card.png'
         with open(image_path, 'rb') as imageFile:
-            image_data = base64.b64encode(imageFile.read()).decode('utf-8')
+            image_str = base64.b64encode(imageFile.read()).decode('utf-8')
 
-        executed = client.execute('''mutation {
-                                        createImage(imageStr: "%s", imageType: identity, userId: "%s") {
-                                            ok
-                                            image {
-                                                userId
-                                            }
-                                        }
-                                    }''' % (image_data, user_id))
+        executed = self.create_image(image_str=image_str, image_type=ImageType.identity, user_id=user_id)
         assert executed == {'data':
                                 OrderedDict(
                                     [('createImage',
@@ -129,16 +113,9 @@ class SchemaTest(unittest.TestCase):
 
         image_path = os.path.dirname(os.path.realpath(__file__)) + '/resources/selfie.jpg'
         with open(image_path, 'rb') as imageFile:
-            image_data = base64.b64encode(imageFile.read()).decode('utf-8')
+            image_str = base64.b64encode(imageFile.read()).decode('utf-8')
 
-        executed = client.execute('''mutation {
-                                        createImage(imageStr: "%s", imageType: profile, userId: "%s") {
-                                            ok
-                                            image {
-                                                userId
-                                            }
-                                        }
-                                    }''' % (image_data, user_id))
+        executed = self.create_image(image_str=image_str, image_type=ImageType.profile, user_id=user_id)
         assert executed == {'data':
                                 OrderedDict(
                                     [('createImage',
