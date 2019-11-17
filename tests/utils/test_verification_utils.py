@@ -37,7 +37,7 @@ class VerificationUtilsTest(unittest.TestCase):
                                image_str=image_str,
                                image_type=ImageType.identity)
         crud.image.create(db_session=db_session, image_in=image_in)
-        
+
         return user_id
 
 
@@ -59,6 +59,7 @@ class VerificationUtilsTest(unittest.TestCase):
 
 
     def main(self):
+        self.test_create_image_file()
         self.test_get_texts()
 
 
