@@ -7,6 +7,7 @@ import cv2
 
 from mocr import face_detection
 from mocr import TextRecognizer
+from nerd import ner
 
 from graphvl import crud
 from graphvl.db.session import db_session
@@ -59,3 +60,9 @@ def get_texts(user_id):
             texts += text + ' '
         return texts
     return ''
+
+
+def get_doc(texts, language):
+    doc = ner.name(texts, language=language)
+    text_label = [(X.text, X.label_) for X in doc]
+    return text_label

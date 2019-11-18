@@ -58,9 +58,26 @@ class VerificationUtilsTest(unittest.TestCase):
         self.assertTrue(len(texts) > 0)
 
 
+    def test_get_doc(self):
+        user_id = self.db_create_rows()
+        (file_path, face_image_path) = verification_utils.create_image_file(user_id=user_id,
+                                                                            image_type=ImageType.identity)
+        verification_utils.create_image_file(user_id=user_id, image_type=ImageType.identity)
+        texts = verification_utils.get_texts(user_id=user_id)
+        doc = verification_utils.get_doc(texts=texts, language='en_core_web_sm')
+        expected_list = [('1234567', 'DATE'),
+                         ('Card Identity National Henderso', 'ORG'),
+                         ('Elizabeth', 'PERSON'),
+                         ('British', 'NORP'),
+                         ('London', 'GPE'),
+                         ('11-08', 'DATE')]
+        self.assertEqual(doc, expected_list)
+
+
     def main(self):
         self.test_create_image_file()
         self.test_get_texts()
+        self.test_get_doc()
 
 
 if __name__ == "__main__":
