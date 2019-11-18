@@ -5,6 +5,7 @@ import os
 import unittest
 import graphene
 import base64
+import datetime
 
 from collections import OrderedDict
 from graphene.test import Client
@@ -72,6 +73,13 @@ class VerificationUtilsTest(unittest.TestCase):
                          ('London', 'GPE'),
                          ('11-08', 'DATE')]
         self.assertEqual(doc, expected_list)
+
+
+    def test_create_user_text_label(self):
+        user_id = self.db_create_rows()
+        user = crud.user.get(db_session=db_session, user_id=user_id)
+        user_text_label = verification_utils.create_user_text_label(user=user)
+        self.assertEqual(user_text_label, {'PERSON': ['name', 'surname'], 'DATE': datetime.date(1990, 10, 10), 'GPE': 'country'})
 
 
     def main(self):

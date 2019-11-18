@@ -12,6 +12,7 @@ from nerd import ner
 from graphvl import crud
 from graphvl.db.session import db_session
 from graphvl.models.image import ImageCreate, ImageType
+from graphvl.db_models.models import User
 
 
 east_path = os.getcwd() + '/graphvl' + '/' + 'text_detection_model/frozen_east_text_detection.pb'
@@ -60,6 +61,13 @@ def get_texts(user_id):
             texts += text + ' '
         return texts
     return ''
+
+
+def create_user_text_label(user: User):
+    user_text_label = {'PERSON': [user.name, user.surname],
+                       'DATE': user.date_of_birth,
+                       'GPE': user.country}
+    return user_text_label
 
 
 def get_doc(texts, language):
