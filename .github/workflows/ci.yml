@@ -30,7 +30,7 @@ jobs:
           sudo apt install libpq-dev
           pip install -e .
           pip install -r requirements.testing.txt --upgrade
-          python -m graphvl -t
+          source ./set_environment_variables.sh env-postgres.env
       env:
         POSTGRES_SERVER: localhost
         POSTGRES_USER: postgres
