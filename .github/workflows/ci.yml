@@ -12,29 +12,45 @@ jobs:
         python-version: [3.6, 3.7, 3.8]
         operating-system: [ubuntu-latest]
 
+    services:
+      postgres:
+        image: postgres:11.5
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
     - uses: actions/checkout@v1
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-    - uses: harmon758/postgresql-action@v1
-      with:
-        postgresql version: '11'
+    - name: Install PostgreSQL 11 client
+      run: |
+        sudo apt-get -yqq install libpq-dev
     - name: Install dependencies
       run: |
-          sudo apt-get update
-          sudo apt install libtesseract-dev
-          sudo apt install libleptonica-dev
-          sudo apt install tesseract-ocr
-          sudo apt install libpq-dev
-          pip install -e .
-          pip install -r requirements.testing.txt --upgrade
-          source ./set_environment_variables.sh env-postgres.env
+        sudo apt-get update
+        sudo apt install libtesseract-dev
+        sudo apt install libleptonica-dev
+        sudo apt install tesseract-ocr
+        sudo apt install libpq-dev
+        pip install -e .
+        pip install -r requirements.testing.txt
+    - name: Setup database
       env:
         POSTGRES_SERVER: localhost
         POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
         POSTGRES_DB: postgres
+        POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
+      run: |
+        env
+        python -m graphvl -t
     - name: Lint with flake8
       run: |
         pip install flake8
