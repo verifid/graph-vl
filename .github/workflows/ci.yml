@@ -49,7 +49,6 @@ jobs:
         POSTGRES_DB: postgres
         POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
       run: |
-        env
         python -m graphvl -t
     - name: Lint with flake8
       run: |
@@ -59,5 +58,11 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
+      env:
+        POSTGRES_SERVER: localhost
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: postgres
+        POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
       run: |
         py.test -s -vv --cov-report xml --cov=graphvl tests/
