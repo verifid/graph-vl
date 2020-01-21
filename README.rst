@@ -1,8 +1,8 @@
 graph-vl
 ========
 
-.. image:: https://travis-ci.org/verifid/graph-vl.svg?branch=master
-    :target: https://travis-ci.org/verifid/graph-vl
+.. image:: https://github.com/verifid/graph-vl/workflows/graph-vl%20ci/badge.svg
+    :target: https://github.com/verifid/graph-vl/actions
 
 .. image:: https://codecov.io/gh/verifid/graph-vl/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/verifid/graph-vl
