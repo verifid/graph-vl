@@ -34,7 +34,6 @@ jobs:
         sudo apt-get -yqq install libpq-dev
     - name: Install dependencies
       run: |
-        sudo apt-get update
         sudo apt install libtesseract-dev
         sudo apt install libleptonica-dev
         sudo apt install tesseract-ocr
