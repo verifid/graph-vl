@@ -27,7 +27,7 @@ Requirements
 Usage
 -----
 
-To run the **graph-vl** server, please execute the following from the root directory
+To run the **graph-vl** server, please execute the following command from the root directory
 
 .. code::
 
