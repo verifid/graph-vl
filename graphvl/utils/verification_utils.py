@@ -4,6 +4,7 @@
 import os
 import base64
 import cv2
+import datetime
 
 from mocr import face_detection
 from mocr import TextRecognizer
@@ -13,6 +14,8 @@ from graphvl import crud
 from graphvl.db.session import db_session
 from graphvl.models.image import ImageCreate, ImageType
 from graphvl.db_models.models import User
+
+from re import search
 
 
 east_path = os.getcwd() + '/graphvl' + '/' + 'text_detection_model/frozen_east_text_detection.pb'
@@ -74,3 +77,34 @@ def get_doc(texts, language):
     doc = ner.name(texts, language=language)
     text_label = [(X.text, X.label_) for X in doc]
     return text_label
+
+
+def point_on_texts(text, value):
+    if isinstance(value, datetime.date):
+        value = value.strftime('%d/%m/%Y')
+
+    val_len = len(value)
+    text_len = len(text)
+    if text_len > val_len:
+        match = search(value, text)
+    else:
+        match = search(text, value)
+    point = 0
+    if match:
+        (start, end) = match.span()
+        point = int(((100 * (end - start)) / val_len) / 4)
+    return point
+
+
+def validate_text_label(text_label, user_text_label):
+    result = 0
+    for (text, label) in text_label:
+        if label in user_text_label:
+            value = user_text_label[label]
+            # check for name and surname
+            if isinstance(value, list):
+                for val in value:
+                    result += point_on_texts(text, val)
+            else:
+                result += point_on_texts(text, value)
+    return result
