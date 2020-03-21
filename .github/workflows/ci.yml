@@ -71,4 +71,4 @@ jobs:
         yml: ./.codecov.yml
         file: ./coverage.xml
         flags: unittests
-        fail_ci_if_error: true
+        fail_ci_if_error: false
