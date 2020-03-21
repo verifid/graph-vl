@@ -31,7 +31,7 @@ async def read_links():
                                         }
                                     </style>
                                 </head>
-                                <h2>VerifID - Identity Verification Layer</h2>
+                                <h2>VerifID - GraphQL Identity Verification Layer</h2>
                                 <ul>
                                     <li><a href="/user">User endpoint</a></li>
                                     <li><a href="/image">Image endpoint</a></li>
