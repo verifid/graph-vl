@@ -14,7 +14,7 @@ def get(db_session: Session, *, user_id: int) -> Optional[User]:
     return db_session.query(User).filter(User.user_id == user_id).first()
 
 
-def get_multi(db_session: Session, *, skip=0, limit=100) -> List[Optional[User]]:
+def get_multi(db_session: Session, *, skip: int=0, limit: int=100) -> List[Optional[User]]:
     return db_session.query(User).offset(skip).limit(limit).all()
 
 
