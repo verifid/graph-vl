@@ -16,11 +16,12 @@ from graphvl.models.image import ImageCreate, ImageType
 from graphvl.db_models.models import User
 
 from re import search
+from typing import List
 
 
 east_path = os.getcwd() + '/graphvl' + '/' + 'text_detection_model/frozen_east_text_detection.pb'
 
-def create_image_file(user_id, image_type):
+def create_image_file(user_id: str, image_type: ImageType):
     image = crud.image.get(db_session, user_id=user_id, image_type=image_type)
     if image:
         photo_data = base64.b64decode(image.image_str)
@@ -49,7 +50,7 @@ def create_image_file(user_id, image_type):
     return (file_path, face_image_path)
 
 
-def get_texts(user_id):
+def get_texts(user_id: str):
     image_path = os.getcwd() + '/testsets/' + 'identity' + '/' + user_id + '/' + 'image.jpg'
     text_recognizer = TextRecognizer(image_path, east_path)
     (image, _, _) = text_recognizer.load_image()
@@ -73,13 +74,13 @@ def create_user_text_label(user: User):
     return user_text_label
 
 
-def get_doc(texts, language):
+def get_doc(texts: str, language: str):
     doc = ner.name(texts, language=language)
     text_label = [(X.text, X.label_) for X in doc]
     return text_label
 
 
-def point_on_texts(text, value):
+def point_on_texts(text: str, value: str):
     if isinstance(value, datetime.date):
         value = value.strftime('%d/%m/%Y')
 
