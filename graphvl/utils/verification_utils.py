@@ -97,7 +97,7 @@ def point_on_texts(text: str, value: str):
     return point
 
 
-def validate_text_label(text_label, user_text_label):
+def validate_text_label(text_label: List, user_text_label: str):
     result = 0
     for (text, label) in text_label:
         if label in user_text_label:
