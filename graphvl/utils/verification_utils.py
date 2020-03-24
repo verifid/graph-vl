@@ -10,6 +10,8 @@ from mocr import face_detection
 from mocr import TextRecognizer
 from nerd import ner
 
+from facereg import face_encoder, recognize_faces
+
 from graphvl import crud
 from graphvl.db.session import db_session
 from graphvl.models.image import ImageCreate, ImageType
@@ -109,3 +111,17 @@ def validate_text_label(text_label: List, user_text_label: str):
             else:
                 result += point_on_texts(text, value)
     return result
+
+
+def recognize_face(user_id: str):
+    datasets_path = os.getcwd() + '/testsets/identity/' + user_id
+    encodings_path = os.path.dirname(os.path.realpath(__file__)) + '/encodings.pickle'
+    face_encoder.encode_faces(datasets=datasets_path,
+                              encodings=encodings_path,
+                              detection_method='cnn')
+    image_path = os.getcwd() + '/testsets/face/' + user_id + '/' + 'image.jpg'
+    names = recognize_faces.recognize(image_path,
+                                      datasets=datasets_path,
+                                      encodings=encodings_path,
+                                      detection_method='cnn')
+    return names
