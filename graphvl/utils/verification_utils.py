@@ -125,3 +125,18 @@ def recognize_face(user_id: str):
                                       encodings=encodings_path,
                                       detection_method='cnn')
     return names
+
+
+def point_on_recognition(names: List, user_id: str):
+    point = 0
+    if not names:
+        point = 0
+        return point
+    if len(names) > 1:
+        for name in names:
+            if name == user_id:
+                point = 25
+    else:
+        if names[0] == user_id:
+            point = 25
+    return point
