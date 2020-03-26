@@ -17,6 +17,9 @@ that is responsible from verifying identity cards or passports. Basically it's a
 Kubernetes as a container. All endpoints have detailly documented using GraphiQL and project relies on some other VerifID and as well as other Open Source
 Python modules.
 
+For storage, it uses Postgres as a database and SQLAlchemy as an object relational mapper. To make it simple DB has only two tables which is enough for this
+project.
+
 Requirements
 ------------
 
@@ -32,6 +35,7 @@ To run the **graph-vl** server, please execute the following command from the ro
 .. code::
 
     pip3 install -r requirements.txt
+    source ./set_environment_variables.sh env-postgres.env
     uvicorn graphvl.main:app
 
 All endpoints available on
