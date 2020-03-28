@@ -24,6 +24,7 @@ Requirements
 ------------
 
 * Python 3.6+
+* Postgres
 * Run time dependencies ``requirements.txt``
 * Test dependencies ``requirements.testing.txt``
 
