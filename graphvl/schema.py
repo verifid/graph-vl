@@ -55,7 +55,10 @@ class UserMutation(graphene.ObjectType):
 
 
 class UserQuery(graphene.ObjectType):
-    user = graphene.Field(User, description='User object')
+    user = graphene.Field(User, user_id=graphene.String())
+
+    def resolve_user(self, info, user_id):
+        return crud.user.get(db_session=db_session, user_id=user_id)
 
 
 class Image(graphene.ObjectType):
