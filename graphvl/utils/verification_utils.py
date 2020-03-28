@@ -24,7 +24,7 @@ from typing import List
 east_path = os.getcwd() + '/graphvl' + '/' + 'text_detection_model/frozen_east_text_detection.pb'
 
 def create_image_file(user_id: str, image_type: ImageType):
-    image = crud.image.get(db_session, user_id=user_id, image_type=image_type)
+    image = crud.image.get(db_session, user_id=user_id, image_type=ImageType.identity)
     if image:
         photo_data = base64.b64decode(image.image_str)
 
@@ -49,7 +49,9 @@ def create_image_file(user_id: str, image_type: ImageType):
                 os.makedirs(face_directory)
             face_image_path = face_directory + 'image.jpg'
             cv2.imwrite(face_image_path, face_image)
-    return (file_path, face_image_path)
+        return (file_path, face_image_path)
+    else:
+        return (None, None)
 
 
 def get_texts(user_id: str):
@@ -77,9 +79,12 @@ def create_user_text_label(user: User):
 
 
 def get_doc(texts: str, language: str):
-    doc = ner.name(texts, language=language)
-    text_label = [(X.text, X.label_) for X in doc]
-    return text_label
+    try: 
+        doc = ner.name(texts, language=language)
+        text_label = [(X.text, X.label_) for X in doc]
+        return text_label
+    except:
+        return None
 
 
 def point_on_texts(text: str, value: str):

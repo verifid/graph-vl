@@ -99,7 +99,7 @@ class Verify(graphene.Mutation):
         language = graphene.String(required=True, description='Language model for verification')
 
     ok = graphene.Boolean()
-    verify = graphene.Field(lambda: Verify)
+    verification_rate = graphene.Int()
 
     def mutate(self, info, user_id, language):
         user = crud.user.get(db_session, user_id=user_id)
@@ -107,9 +107,24 @@ class Verify(graphene.Mutation):
         verification_utils.create_image_file(user_id=user_id, image_type=ImageType.profile)
         texts = verification_utils.get_texts(user_id=user_id)
         doc_text_label = verification_utils.get_doc(texts=texts, language=language)
-        print(doc_text_label)
+        if not doc_text_label:
+            ok = False
+            return Verify(verification_rate=0, ok=ok)
+
+        user_text_label = verification_utils.create_user_text_label(user)
+        text_validation_point = verification_utils.validate_text_label(doc_text_label, user_text_label)
+        print('text_validation_point: ' + str(text_validation_point))
+        names = verification_utils.recognize_face(user_id)
+        if not names:
+            ok = False
+            return Verify(verification_rate=0, ok=ok)
+
+        face_validation_point = verification_utils.point_on_recognition(names, user_id)
+        print('face_validation_point: ' + str(face_validation_point))
+        verification_rate = text_validation_point + face_validation_point
+
         ok = True
-        verify = None
+        return Verify(verification_rate=verification_rate, ok=ok)
 
 
 class VerifyMutation(graphene.ObjectType):

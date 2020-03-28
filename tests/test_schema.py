@@ -130,8 +130,25 @@ class SchemaTest(unittest.TestCase):
         verification_client = Client(verification_schema)
         executed = verification_client.execute('''mutation {
                                                     verify(language: "en_core_web_sm", userId: "%s") {
-                                                        ok
+                                                        ok,
+                                                        verificationRate
                                                     }
                                                 }
                                                ''' % user_id)
-        print(executed)
+        assert executed == {'data':
+                                OrderedDict(
+                                    [('verify',
+                                        OrderedDict([('ok', True),
+                                        ('verificationRate', 25)])
+                                    )]
+                                )
+                            }
+
+
+    def main(self):
+        self.test_verify_user()
+
+
+if __name__ == "__main__":
+    schema_tests = SchemaTest()
+    schema_tests.main()
