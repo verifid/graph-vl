@@ -105,6 +105,9 @@ class Verify(graphene.Mutation):
         user = crud.user.get(db_session, user_id=user_id)
         verification_utils.create_image_file(user_id=user_id, image_type=ImageType.identity)
         verification_utils.create_image_file(user_id=user_id, image_type=ImageType.profile)
+        texts = verification_utils.get_texts(user_id=user_id)
+        doc_text_label = verification_utils.get_doc(texts=texts, language=language)
+        print(doc_text_label)
         ok = True
         verify = None
 
