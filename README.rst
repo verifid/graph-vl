@@ -37,6 +37,7 @@ To run the **graph-vl** server, please execute the following command from the ro
 
     pip3 install -r requirements.txt
     source ./set_environment_variables.sh env-postgres.env
+    python -m graphvl -t
     uvicorn graphvl.main:app
 
 All endpoints available on
