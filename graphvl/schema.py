@@ -90,7 +90,10 @@ class ImageMutation(graphene.ObjectType):
 
 
 class ImageQuery(graphene.ObjectType):
-    image = graphene.Field(Image, description='Image object')
+    image = graphene.Field(Image, user_id=graphene.String())
+
+    def resolve_user(self, info, user_id, image_type):
+        return crud.image.get(db_session=db_session, user_id=user_id, image_type=ImageType.identity)
 
 
 class Verify(graphene.Mutation):
