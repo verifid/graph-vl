@@ -34,5 +34,5 @@ class UserTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
-   user_tests = UserTest()
-   user_tests.main()
+    user_tests = UserTest()
+    user_tests.main()
