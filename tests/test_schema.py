@@ -147,6 +147,8 @@ class SchemaTest(unittest.TestCase):
 
     def main(self):
         self.test_verify_user()
+        self.test_create_image()
+        self.test_verify_user()
 
 
 if __name__ == "__main__":
