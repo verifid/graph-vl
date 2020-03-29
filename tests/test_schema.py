@@ -139,7 +139,7 @@ class SchemaTest(unittest.TestCase):
                                 OrderedDict(
                                     [('verify',
                                         OrderedDict([('ok', True),
-                                        ('verificationRate', 25)])
+                                        ('verificationRate', 0.25)])
                                     )]
                                 )
                             }

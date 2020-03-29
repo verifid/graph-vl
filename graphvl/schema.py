@@ -99,7 +99,7 @@ class Verify(graphene.Mutation):
         language = graphene.String(required=True, description='Language model for verification')
 
     ok = graphene.Boolean()
-    verification_rate = graphene.Int()
+    verification_rate = graphene.Float()
 
     def mutate(self, info, user_id, language):
         user = crud.user.get(db_session, user_id=user_id)

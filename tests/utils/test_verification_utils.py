@@ -89,7 +89,7 @@ class VerificationUtilsTest(unittest.TestCase):
                           name='Elizabeth',
                           surname='Henderson',
                           date_of_birth='1977-04-14',
-                          country='GPE')
+                          country='London')
         crud.user.create(db_session=db_session, user_in=user)
 
         image_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/resources/sample_uk_identity_card.png'
@@ -107,7 +107,25 @@ class VerificationUtilsTest(unittest.TestCase):
         doc_text_label = verification_utils.get_doc(texts, language='en_core_web_sm')
         user_text_label = verification_utils.create_user_text_label(user)
         text_validation_point = verification_utils.validate_text_label(doc_text_label, user_text_label)
-        self.assertEqual(text_validation_point, 25)
+        self.assertEqual(text_validation_point, 0.5)
+
+
+    def test_validate_text_label_simple(self):
+        user_id = utils.create_user_id()
+        user = UserCreate(user_id=user_id,
+                          name='Elizabeth',
+                          surname='Henderson',
+                          date_of_birth='1977-04-14',
+                          country='London')
+        user_text_label = verification_utils.create_user_text_label(user)
+        doc_text_label = [('1234567', 'DATE'),
+                         ('Card Identity National Henderso', 'ORG'),
+                         ('Elizabeth', 'PERSON'),
+                         ('British', 'NORP'),
+                         ('London', 'GPE'),
+                         ('11-08', 'DATE')]
+        text_validation_point = verification_utils.validate_text_label(doc_text_label, user_text_label)
+        self.assertEqual(text_validation_point, 0.50)
 
 
     def test_recognize_face(self):
@@ -116,7 +134,7 @@ class VerificationUtilsTest(unittest.TestCase):
                           name='Elizabeth',
                           surname='Henderson',
                           date_of_birth='1977-04-14',
-                          country='GPE')
+                          country='London')
         crud.user.create(db_session=db_session, user_in=user)
 
         image_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/resources/sample_uk_identity_card.png'
@@ -140,7 +158,7 @@ class VerificationUtilsTest(unittest.TestCase):
                           name='Elizabeth',
                           surname='Henderson',
                           date_of_birth='1977-04-14',
-                          country='GPE')
+                          country='London')
         crud.user.create(db_session=db_session, user_in=user)
 
         image_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/resources/sample_uk_identity_card.png'
@@ -156,19 +174,25 @@ class VerificationUtilsTest(unittest.TestCase):
                                                                             image_type=ImageType.identity)
         names = verification_utils.recognize_face(user_id=user_id)
         face_validation_point = verification_utils.point_on_recognition(names, user_id)
-        self.assertEqual(face_validation_point, 25)
+        self.assertEqual(face_validation_point, 0.25)
 
 
     def test_point_on_recognition_fails(self):
         face_validation_point = verification_utils.point_on_recognition(None, 'user_id')
-        self.assertEqual(face_validation_point, 0)
+        self.assertEqual(face_validation_point, 0.0)
         face_validation_point = verification_utils.point_on_recognition(['test'], 'user_id')
-        self.assertEqual(face_validation_point, 0)
+        self.assertEqual(face_validation_point, 0.0)
 
     def main(self):
         self.test_create_image_file()
         self.test_get_texts()
         self.test_get_doc()
+        self.test_create_user_text_label()
+        self.test_validate_text_label()
+        self.test_validate_text_label_simple()
+        self.test_recognize_face()
+        self.test_point_on_recognition_succeed()
+        self.test_point_on_recognition_fails()
 
 
 if __name__ == "__main__":

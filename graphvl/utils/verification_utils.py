@@ -97,10 +97,10 @@ def point_on_texts(text: str, value: str):
         match = search(value, text)
     else:
         match = search(text, value)
-    point = 0
+    point = 0.0
     if match:
         (start, end) = match.span()
-        point = int(((100 * (end - start)) / val_len) / 4)
+        point = float(((1.0 * (end - start)) / val_len) / 4)
     return point
 
 
@@ -133,15 +133,15 @@ def recognize_face(user_id: str):
 
 
 def point_on_recognition(names: List, user_id: str):
-    point = 0
+    point = 0.0
     if not names:
-        point = 0
+        point = 0.0
         return point
     if len(names) > 1:
         for name in names:
             if name == user_id:
-                point = 25
+                point = 0.25
     else:
         if names[0] == user_id:
-            point = 25
+            point = 0.25
     return point
