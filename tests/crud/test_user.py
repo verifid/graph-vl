@@ -29,8 +29,8 @@ class UserTest(unittest.TestCase):
         self.assertEqual(user_out.country, user_in.country)
 
 
-   def main(self):
-       self.test_create_user()
+    def main(self):
+        self.test_create_user()
 
 
 if __name__ == '__main__':
