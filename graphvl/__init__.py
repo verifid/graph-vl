@@ -48,5 +48,3 @@ from graphvl.utils import (
     utils,
     verification_utils
 )
-
-from graphvl.router import api_router
