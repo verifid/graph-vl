@@ -133,3 +133,10 @@ class VerifyMutation(graphene.ObjectType):
 
 class VerifyQuery(graphene.ObjectType):
     verify = graphene.Field(Verify, description='Verify object')
+
+
+class Query(UserQuery, ImageQuery, VerifyQuery, graphene.ObjectType):
+    pass
+
+class Mutation(UserMutation, ImageMutation, VerifyMutation, graphene.ObjectType):
+    pass
