@@ -37,6 +37,11 @@ class ImageTest(unittest.TestCase):
         self.assertEqual(image_out.image_str, image_str)
         self.assertEqual(image_out.image_type, ImageType.identity.value)
 
+
+    def main(self):
+        self.test_create_image()
+
+
 if __name__ == '__main__':
-    suite = ImageTest()
-    suite.test_create_image()
+    image_tests = ImageTest()
+    image_tests.main()
