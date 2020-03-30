@@ -34,8 +34,8 @@ class CreateUser(graphene.Mutation):
         name = graphene.String(required=True, description='Name of user')
         surname = graphene.String(required=True, description='Surname of user')
 
-    ok = graphene.Boolean()
-    user = graphene.Field(lambda: User)
+    ok = graphene.Boolean(description='Defines success or fail')
+    user = graphene.Field(lambda: User, description='Details of user')
 
     def mutate(self, info, country, date_of_birth, name, surname):
         user_id = utils.create_user_id()
@@ -51,11 +51,11 @@ class CreateUser(graphene.Mutation):
 
 
 class UserMutation(graphene.ObjectType):
-    create_user = CreateUser.Field()
+    create_user = CreateUser.Field(description='Creates a new user with given parameters')
 
 
 class UserQuery(graphene.ObjectType):
-    user = graphene.Field(User, user_id=graphene.String())
+    user = graphene.Field(User, user_id=graphene.String(), description='Query user by user id')
 
     def resolve_user(self, info, user_id):
         return crud.user.get(db_session=db_session, user_id=user_id)
@@ -73,8 +73,8 @@ class CreateImage(graphene.Mutation):
         image_str = graphene.String(required=True, description='Base64 encoded binary string of image')
         image_type = graphene.Enum.from_enum(ImageType)(required=True, description='Image file type identity = 1, profile = 2')
 
-    ok = graphene.Boolean()
-    image = graphene.Field(lambda: Image)
+    ok = graphene.Boolean(description='Defines success or fail')
+    image = graphene.Field(lambda: Image, description='Details of image')
 
     def mutate(self, info, user_id, image_str, image_type):
         image_in = ImageCreate(user_id=user_id,
@@ -86,11 +86,11 @@ class CreateImage(graphene.Mutation):
 
 
 class ImageMutation(graphene.ObjectType):
-    create_image = CreateImage.Field()
+    create_image = CreateImage.Field(description='Uploads user image with given parameters')
 
 
 class ImageQuery(graphene.ObjectType):
-    image = graphene.Field(Image, user_id=graphene.String())
+    image = graphene.Field(Image, user_id=graphene.String(), description='Query image by user id')
 
     def resolve_user(self, info, user_id, image_type):
         return crud.image.get(db_session=db_session, user_id=user_id, image_type=ImageType.identity)
@@ -101,8 +101,8 @@ class Verify(graphene.Mutation):
         user_id = graphene.String(required=True, description='UserId created with a new user')
         language = graphene.String(required=True, description='Language model for verification')
 
-    ok = graphene.Boolean()
-    verification_rate = graphene.Float()
+    ok = graphene.Boolean(description='Defines success or fail')
+    verification_rate = graphene.Float(description='Value of verification between 0 and 1')
 
     def mutate(self, info, user_id, language):
         user = crud.user.get(db_session, user_id=user_id)
@@ -131,14 +131,14 @@ class Verify(graphene.Mutation):
 
 
 class VerifyMutation(graphene.ObjectType):
-    verify = Verify.Field()
+    verify = Verify.Field(description='Verify user identity with given parameters')
 
 
 class VerifyQuery(graphene.ObjectType):
     verify = graphene.Field(Verify, description='Verify object')
 
 
-class Query(UserQuery, ImageQuery, VerifyQuery, graphene.ObjectType):
+class Query(UserQuery, ImageQuery, graphene.ObjectType):
     pass
 
 class Mutation(UserMutation, ImageMutation, VerifyMutation, graphene.ObjectType):
