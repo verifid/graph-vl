@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*-
 
 from pydantic import BaseModel
+from datetime import date
 
 
 # Shared properties
 class UserBase(BaseModel):
     name: str = None
     surname: str = None
-    date_of_birth: str = None
+    date_of_birth: date = None
     country: str = None
 
 

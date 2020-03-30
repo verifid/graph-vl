@@ -64,7 +64,7 @@ class SchemaTest(unittest.TestCase):
                                         OrderedDict([('ok', True),
                                         ('user',
                                             OrderedDict([('country', 'country'),
-                                            ('dateOfBirth', '1960-01-01'),
+                                            ('dateOfBirth', '01-01-1960'),
                                             ('name', 'name'),
                                             ('surname', 'surname')])
                                         )])

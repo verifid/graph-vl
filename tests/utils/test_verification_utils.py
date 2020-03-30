@@ -26,7 +26,7 @@ class VerificationUtilsTest(unittest.TestCase):
         user = UserCreate(user_id=user_id,
                         name='name',
                         surname='surname',
-                        date_of_birth='1990-10-10',
+                        date_of_birth=datetime.date(1990, 10, 10),
                         country='country')
 
         crud.user.create(db_session=db_session, user_in=user)
@@ -88,7 +88,7 @@ class VerificationUtilsTest(unittest.TestCase):
         user = UserCreate(user_id=user_id,
                           name='Elizabeth',
                           surname='Henderson',
-                          date_of_birth='1977-04-14',
+                          date_of_birth=datetime.date(1977, 4, 14),
                           country='London')
         crud.user.create(db_session=db_session, user_in=user)
 
@@ -115,7 +115,7 @@ class VerificationUtilsTest(unittest.TestCase):
         user = UserCreate(user_id=user_id,
                           name='Elizabeth',
                           surname='Henderson',
-                          date_of_birth='1977-04-14',
+                          date_of_birth=datetime.date(1977, 4, 14),
                           country='London')
         user_text_label = verification_utils.create_user_text_label(user)
         doc_text_label = [('1234567', 'DATE'),
@@ -133,7 +133,7 @@ class VerificationUtilsTest(unittest.TestCase):
         user = UserCreate(user_id=user_id,
                           name='Elizabeth',
                           surname='Henderson',
-                          date_of_birth='1977-04-14',
+                          date_of_birth=datetime.date(1977, 4, 14),
                           country='London')
         crud.user.create(db_session=db_session, user_in=user)
 
@@ -157,7 +157,7 @@ class VerificationUtilsTest(unittest.TestCase):
         user = UserCreate(user_id=user_id,
                           name='Elizabeth',
                           surname='Henderson',
-                          date_of_birth='1977-04-14',
+                          date_of_birth=datetime.date(1977, 4, 14),
                           country='London')
         crud.user.create(db_session=db_session, user_in=user)
 

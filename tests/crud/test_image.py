@@ -5,6 +5,8 @@ import os
 import unittest
 import base64
 
+from datetime import date
+
 from graphvl import crud
 from graphvl.db.session import db_session
 from graphvl.models.user import UserCreate
@@ -19,7 +21,7 @@ class ImageTest(unittest.TestCase):
         user_in = UserCreate(user_id=user_id,
                              name='name',
                              surname='surname',
-                             date_of_birth='10.10.1990',
+                             date_of_birth=date(1990, 10, 10),
                              country='Turkey')
         crud.user.create(db_session, user_in=user_in)
         image_path = os.path.dirname(os.path.dirname(__file__)) + '/resources/sample_uk_identity_card.png'

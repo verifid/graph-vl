@@ -4,6 +4,7 @@
 import unittest
 import os
 
+from datetime import date
 
 from graphvl import crud
 from graphvl.db.session import db_session
@@ -18,7 +19,7 @@ class UserTest(unittest.TestCase):
         user_in = UserCreate(user_id=user_id,
                              name='name',
                              surname='surname',
-                             date_of_birth='10.10.1990',
+                             date_of_birth=date(1990, 10, 10),
                              country='Turkey')
         crud.user.create(db_session, user_in=user_in)
         user_out = crud.user.get(db_session, user_id=user_id)

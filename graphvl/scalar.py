@@ -12,7 +12,7 @@ class Date(Scalar):
 
     @staticmethod
     def serialize(dt):
-        return dt.isoformat()
+        return Date.to_str(dt)
 
 
     @staticmethod
@@ -25,3 +25,8 @@ class Date(Scalar):
     @staticmethod
     def parse_value(value):
         return datetime.datetime.strptime(value, '%d-%m-%Y')
+
+
+    @staticmethod
+    def to_str(value):
+        return value.strftime('%d-%m-%Y')

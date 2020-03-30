@@ -39,11 +39,10 @@ class CreateUser(graphene.Mutation):
 
     def mutate(self, info, country, date_of_birth, name, surname):
         user_id = utils.create_user_id()
-        date = date_of_birth.strftime('%d/%m/%Y')
         user_in = UserCreate(user_id=user_id,
                              name=name,
                              surname=surname,
-                             date_of_birth=date,
+                             date_of_birth=date_of_birth,
                              country=country)
         user = crud.user.create(db_session, user_in=user_in)
         ok = True
