@@ -40,6 +40,17 @@ To run the **graph-vl** server, please execute the following command from the ro
     python -m graphvl -t
     uvicorn graphvl.main:app
 
+Interface
+---------
+
++-----------------+---------------+-----------------+
+||image_expolorer|||image_queries|||image_mutations||
++-----------------+---------------+-----------------+ 
+
 All endpoints available on
 
 ``http://127.0.0.1:8000``
+
+.. |image_expolorer| image:: https://raw.githubusercontent.com/verifid/graph-vl/master/resources/explorer.png
+.. |image_queries| image:: https://raw.githubusercontent.com/verifid/graph-vl/master/resources/queries.png
+.. |image_mutations| image:: https://raw.githubusercontent.com/verifid/graph-vl/master/resources/mutations.png
