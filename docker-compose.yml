@@ -1,0 +1,30 @@
+version: '3.7'
+
+volumes:
+  database_data:
+    driver: local
+
+services:
+  db:
+    image: postgres:11.5
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - database_data:/var/lib/postgresql/data
+  web:
+    build: graphvl
+    command: uvicorn graphvl.main:app
+    expose:
+      - 8000
+    ports:
+      - 8000:8000
+    links:
+      - db
+    environment:
+      - LC_ALL=C.UTF-8
+      - LANG=C.UTF-8
+      - POSTGRES_SERVER=localhost
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
