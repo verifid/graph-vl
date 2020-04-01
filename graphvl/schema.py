@@ -91,7 +91,7 @@ class ImageMutation(graphene.ObjectType):
 class ImageQuery(graphene.ObjectType):
     image = graphene.Field(Image, user_id=graphene.String(), description='Query image by user id')
 
-    def resolve_user(self, info, user_id, image_type):
+    def resolve_image(self, info, user_id):
         return crud.image.get(db_session=db_session, user_id=user_id, image_type=ImageType.identity)
 
 
