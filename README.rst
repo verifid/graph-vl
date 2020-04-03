@@ -17,8 +17,14 @@ that is responsible from verifying identity cards or passports. Basically it's a
 Kubernetes as a container. All endpoints are documented using GraphiQL and project relies on VerifID and other Open Source 
 Python modules.
 
-For storage, it uses Postgres as a database and SQLAlchemy as an object relational mapper. To make it simple DB has only two tables which is enough for this
-project.
+For storage, it uses Postgres as a database and SQLAlchemy as an object relational mapper. To make it simple DB has only two tables which is enough for this project.
+
+There is only four steps to veriy an identity of a person which you can find those steps below.
+
+1. Create a user with personal details
+2. Upload user's selfie photo
+3. Take a photo of front page of identity card or passport, then upload
+4. Call verify endpoint and get the result
 
 Requirements
 ------------
