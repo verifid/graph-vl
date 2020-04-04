@@ -10,9 +10,7 @@ ENV POSTGRES_DB=postgres
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY requirements.txt /usr/src/app/
-COPY env-postgres.env /usr/src/app/
-COPY graphvl-entrypoint.sh /usr/src/app/
+COPY . /usr/src/app/
 
 RUN apt-get -y update
 RUN apt-get install -y software-properties-common
@@ -47,13 +45,12 @@ RUN apt-get install -y --fix-missing \
 RUN cd ~ && \
     mkdir -p dlib && \
     git clone -b 'v19.9' --single-branch https://github.com/davisking/dlib.git dlib/ && \
-    cd  dlib/ && \
+    cd dlib/ && \
     python3 setup.py install --yes USE_AVX_INSTRUCTIONS
 RUN apt-get -y install python3-pip
 RUN pip3 install -r requirements.txt
 RUN python3 -m nerd -d en_core_web_sm
 
-COPY . /usr/src/app
 RUN pip3 install -e .
 RUN python3 -m graphvl -t
 
