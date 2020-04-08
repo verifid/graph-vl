@@ -37,14 +37,26 @@ Requirements
 Usage
 -----
 
+Before starting the containers create a local network on Docker
+
+.. code::
+
+    docker network create graphvl-network
+
+You need a Postgres instance in your machine our a Docker container that runs database. To pull docker image
+and start a container
+
+.. code::
+
+    docker pull postgres:11.5
+    docker run --name pg-docker --net graphvl-network -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres -d -p 5432:5432 --net graphvl-network postgres:11.5
+
 To run the **graph-vl** server, please execute the following commands from the root directory
 
 .. code::
 
-    pip install -r requirements.txt
-    source ./set_environment_variables.sh env-postgres.env
-    python -m graphvl -t
-    uvicorn graphvl.main:app
+    docker build -t graphvl .
+    docker run --name graphvl --net graphvl-network graphvl
 
 Interface
 ---------

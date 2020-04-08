@@ -52,7 +52,6 @@ RUN pip3 install -r requirements.txt
 RUN python3 -m nerd -d en_core_web_sm
 
 RUN pip3 install -e .
-RUN python3 -m graphvl -t
 
 EXPOSE 8000
 
