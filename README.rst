@@ -56,7 +56,7 @@ To run the **graph-vl** server, please execute the following commands from the r
 .. code::
 
     docker build -t graphvl .
-    docker run --name graphvl --net graphvl-network graphvl
+    docker run graphvl:latest --net graphvl-network
 
 Interface
 ---------

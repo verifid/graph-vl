@@ -53,6 +53,8 @@ RUN python3 -m nerd -d en_core_web_sm
 
 RUN pip3 install -e .
 
-EXPOSE 8000
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN ln -s usr/local/bin/docker-entrypoint.sh /
+ENTRYPOINT ["docker-entrypoint.sh"]
 
-ENTRYPOINT ["graphvl-entrypoint.sh"]
+EXPOSE 8000
