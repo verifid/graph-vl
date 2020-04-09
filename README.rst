@@ -49,7 +49,7 @@ and start a container
 .. code::
 
     docker pull postgres:11.5
-    docker run --name pg-docker --net graphvl-network -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres -d -p 5432:5432 --net graphvl-network postgres:11.5
+    docker run --name pg-docker --net graphvl-network -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres -d -p 5432:5432 postgres:11.5
 
 To run the **graph-vl** server, please execute the following commands from the root directory
 
