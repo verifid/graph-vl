@@ -43,16 +43,32 @@ and start a container
 .. code::
 
     docker pull postgres:11.5
-    docker run --name pg-docker --net graphvl-network -e POSTGRES_SERVER=localhost -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres -d -p 5432:5432 postgres:11.5
-    docker inspect -f ‘{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}’ pg_docker
-    # We will use this IP address when we build graph-vl
+    docker run --name postgres -e POSTGRES_SERVER=localhost \
+        -e POSTGRES_USER=postgres \
+        -e POSTGRES_PASSWORD=postgres \
+        -e POSTGRES_DB=postgres \
+        -d -p 5432:5432 postgres:11.5
+    docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' postgres
+    # We will use this IP address when we build or run graph-vl
 
 To run the **graph-vl** server, please execute the following commands from the root directory
 
 .. code::
 
+    docker build --build-arg PG_SERVER=${POSTGRES_IP_ADDRESS} \
+        --build-arg PG_USER=postgres \
+        --build-arg PG_PASSWORD=postgres \
+        --build-arg PG_DB=postgres \
+        -t graphvl .
+    docker run --rm -it -d -p 8000:8000 --name graph-vl graphvl:latest
+
     docker build -t graphvl .
-    docker run graphvl:latest --net graphvl-network
+    docker run -e PG_SERVER=${POSTGRES_IP_ADDRESS} \
+        -e PG_USER=postgres \
+        -e PG_PASSWORD=postgres \
+        -e PG_DB=postgres \
+        --rm -it -d -p 8000:8000 \
+        --name graph-vl graphvl:latest env
 
 Interface
 ---------

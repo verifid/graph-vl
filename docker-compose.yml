@@ -13,7 +13,7 @@ services:
     volumes:
       - database_data:/var/lib/postgresql/data
   web:
-    build: graphvl
+    build: ./
     command: uvicorn graphvl.main:app
     expose:
       - 8000
