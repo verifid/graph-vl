@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: graphvl
+spec:
+  selector:
+    app: graphvl
+  type: NodePort
+  ports:
+  - nodePort: 8000
+    port: 8000
+    protocol: TCP

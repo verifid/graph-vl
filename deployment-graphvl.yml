@@ -1,0 +1,21 @@
+apiVersion: run-pod/v1
+kind: Deployment
+metadata:
+  name: graphvl
+spec:
+  selector:
+    matchLabels:
+      app: graphvl
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: graphvl
+    spec:
+      containers:
+      - image: graphvl
+        name: graphvl
+        imagePullPolicy: Never
+        ports:
+          - name: http
+            containerPort: 8000

@@ -62,14 +62,6 @@ To run the **graph-vl** server, please execute the following commands from the r
         -t graphvl .
     docker run --rm -it -d -p 8000:8000 --name graph-vl graphvl:latest
 
-    docker build -t graphvl .
-    docker run -e PG_SERVER=${POSTGRES_IP_ADDRESS} \
-        -e PG_USER=postgres \
-        -e PG_PASSWORD=postgres \
-        -e PG_DB=postgres \
-        --rm -it -d -p 8000:8000 \
-        --name graph-vl graphvl:latest env
-
 Interface
 ---------
 
