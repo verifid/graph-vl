@@ -7,6 +7,6 @@ spec:
     app: graphvl
   type: NodePort
   ports:
-  - nodePort: 8000
+  - nodePort: 31317
     port: 8000
     protocol: TCP

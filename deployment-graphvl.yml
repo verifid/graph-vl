@@ -1,4 +1,4 @@
-apiVersion: run-pod/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: graphvl
@@ -13,9 +13,9 @@ spec:
         app: graphvl
     spec:
       containers:
-      - image: graphvl
-        name: graphvl
-        imagePullPolicy: Never
-        ports:
-          - name: http
-            containerPort: 8000
+        - name: graphvl
+          image: graphvl:latest
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 8000
