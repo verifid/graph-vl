@@ -62,6 +62,25 @@ To run the **graph-vl** server, please execute the following commands from the r
         -t graphvl .
     docker run --rm -it -d -p 8000:8000 --name graph-vl graphvl:latest
 
+For running in a cluster with Kubernetes you can follow the commands below
+
+.. code::
+
+    # Use Docker for minikube
+    eval $(minikube docker-env)
+    # Re-build the docker images
+
+    # Create developments and pods
+    kubectl create -f deployment-postgres.yml
+    kubectl create -f deployment-graphvl.yml
+
+    # Create services
+    kubectl create -f service-postgres.yml
+    kubectl create -f service-graphvl.yml
+
+    # Get url for **graphvl**
+    minikube service graphvl --url
+
 Interface
 ---------
 
@@ -69,9 +88,7 @@ Interface
 ||image_expolorer|||image_queries|||image_mutations||
 +-----------------+---------------+-----------------+ 
 
-All endpoints available on
-
-``http://127.0.0.1:8000``
+If you run with ``uvicorn graphvl.main:app`` after cloning the project all endpoints will be available available on ``http://127.0.0.1:8000``
 
 .. |image_expolorer| image:: https://raw.githubusercontent.com/verifid/graph-vl/master/resources/explorer.png
 .. |image_queries| image:: https://raw.githubusercontent.com/verifid/graph-vl/master/resources/queries.png
