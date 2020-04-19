@@ -2,4 +2,6 @@ include COPYING
 include LICENSE
 include NOTICE
 include *.rst
+include graphvl/text_detection_model/frozen_east_text_detection.pb
+include graphvl/**/*.py
 prune .DS_Store
