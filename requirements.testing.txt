@@ -1,4 +1,4 @@
-pytest
-pytest-cov
-pytest-runner
-codecov
+pytest >= 5.4.1
+pytest-cov >= 2.8.1
+pytest-runner >= 5.2
+codecov >= 2.0.22
