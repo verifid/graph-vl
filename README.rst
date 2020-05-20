@@ -7,13 +7,13 @@ graph-vl
 .. image:: https://codecov.io/gh/verifid/graph-vl/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/verifid/graph-vl
 
-Self deployed identity verification layer with GraphQL.
+Self hosted identity verification layer with GraphQL.
 
 Introduction
 ------------
 
 graph-vl is the verification layer of verifid developed with GraphQL. It's the secondary core project other than `VL <https://github.com/verifid/vl/>`_ 
-that is responsible from verifying identity cards or passports. Basically it's a self deployed API which has 3 main endpoints. It runs on either Docker or
+that is responsible from verifying identity cards or passports. Basically it's a self hosted API which has 3 main endpoints. It runs on either Docker or
 Kubernetes as a container. All endpoints are documented using GraphiQL and project relies on VerifID and other Open Source 
 Python modules.
 

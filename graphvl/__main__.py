@@ -11,7 +11,7 @@ from graphvl.db import init_db
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser(description='CLI - Self deployed identity verification layer with GraphQL.')
+    parser = argparse.ArgumentParser(description='CLI - Self hosted identity verification layer with GraphQL.')
     parser.add_argument('-v', '--variables', type=str, help='Sets environment variables')
     parser.add_argument('-t', '--table', help='Creates database tables', action='store_true')
     args = parser.parse_args()

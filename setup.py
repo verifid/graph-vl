@@ -48,7 +48,7 @@ setup(
     install_requires=requirements,
     tests_require=requirements_testing,
     python_requires='>=3.6',
-    keywords='identity, verification, self deployed api, graphql',
+    keywords='identity, verification, self hosted api, graphql',
     classifiers=[
         'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',
