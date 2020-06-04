@@ -18,12 +18,12 @@ from graphvl.models.image import ImageCreate, ImageType
 from graphvl.db_models.models import User
 
 from re import search
-from typing import List
+from typing import List, Tuple, Dict
 
 
 east_path = os.getcwd() + '/graphvl' + '/' + 'text_detection_model/frozen_east_text_detection.pb'
 
-def create_image_file(user_id: str, image_type: ImageType):
+def create_image_file(user_id: str, image_type: ImageType) -> Tuple[str, str]:
     image = crud.image.get(db_session, user_id=user_id, image_type=ImageType.identity)
     if image:
         photo_data = base64.b64decode(image.image_str)
@@ -54,7 +54,7 @@ def create_image_file(user_id: str, image_type: ImageType):
         return (None, None)
 
 
-def get_texts(user_id: str):
+def get_texts(user_id: str) -> str:
     image_path = os.getcwd() + '/testsets/' + 'identity' + '/' + user_id + '/' + 'image.jpg'
     text_recognizer = TextRecognizer(image_path, east_path)
     (image, _, _) = text_recognizer.load_image()
@@ -71,14 +71,14 @@ def get_texts(user_id: str):
     return ''
 
 
-def create_user_text_label(user: User):
+def create_user_text_label(user: User) -> Dict:
     user_text_label = {'PERSON': [user.name, user.surname],
                        'DATE': user.date_of_birth,
                        'GPE': user.country}
     return user_text_label
 
 
-def get_doc(texts: str, language: str):
+def get_doc(texts: str, language: str) -> List[Tuple[str, str]]:
     try: 
         doc = ner.name(texts, language=language)
         text_label = [(X.text, X.label_) for X in doc]
@@ -87,7 +87,7 @@ def get_doc(texts: str, language: str):
         return None
 
 
-def point_on_texts(text: str, value: str):
+def point_on_texts(text: str, value: str) -> float:
     if isinstance(value, datetime.date):
         value = value.strftime('%d/%m/%Y')
 
@@ -104,7 +104,7 @@ def point_on_texts(text: str, value: str):
     return point
 
 
-def validate_text_label(text_label: List, user_text_label: str):
+def validate_text_label(text_label: List, user_text_label: str) -> float:
     result = 0
     for (text, label) in text_label:
         if label in user_text_label:
@@ -118,7 +118,7 @@ def validate_text_label(text_label: List, user_text_label: str):
     return result
 
 
-def recognize_face(user_id: str):
+def recognize_face(user_id: str) -> List:
     datasets_path = os.getcwd() + '/testsets/identity/' + user_id
     encodings_path = os.path.dirname(os.path.realpath(__file__)) + '/encodings.pickle'
     face_encoder.encode_faces(datasets=datasets_path,
@@ -132,7 +132,7 @@ def recognize_face(user_id: str):
     return names
 
 
-def point_on_recognition(names: List, user_id: str):
+def point_on_recognition(names: List, user_id: str) -> float:
     point = 0.0
     if not names:
         point = 0.0

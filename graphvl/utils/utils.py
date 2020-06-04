@@ -4,7 +4,7 @@
 import uuid
 
 
-def create_user_id():
+def create_user_id() -> str:
     uid_str = uuid.uuid4().urn
     user_id = uid_str[9:]
     return user_id
