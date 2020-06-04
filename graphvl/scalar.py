@@ -11,22 +11,22 @@ class Date(Scalar):
     '''Date Scalar Description'''
 
     @staticmethod
-    def serialize(dt):
+    def serialize(dt) -> str:
         return Date.to_str(dt)
 
 
     @staticmethod
-    def parse_literal(node):
+    def parse_literal(node) -> datetime.datetime:
         if isinstance(node, ast.StringValue):
             return datetime.datetime.strptime(
                 node.value, '%d-%m-%Y')
 
 
     @staticmethod
-    def parse_value(value):
+    def parse_value(value) -> datetime.datetime:
         return datetime.datetime.strptime(value, '%d-%m-%Y')
 
 
     @staticmethod
-    def to_str(value):
+    def to_str(value) -> str:
         return value.strftime('%d-%m-%Y')
