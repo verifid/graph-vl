@@ -2,7 +2,7 @@ uvicorn >= 0.11.3
 graphene >= 2.1.8
 fastapi >= 0.53.0
 starlette == 0.13.2
-mocr >= 0.3.0
+mocr >= 0.4.0
 facereg >= 0.2.1.2
 ner-d == 0.3.0
 redis >= 3.4.1
