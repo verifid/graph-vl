@@ -13,14 +13,15 @@ from graphvl.utils import utils
 
 
 class UserTest(unittest.TestCase):
-
     def test_create_user(self):
         user_id = utils.create_user_id()
-        user_in = UserCreate(user_id=user_id,
-                             name='name',
-                             surname='surname',
-                             date_of_birth=date(1990, 10, 10),
-                             country='Turkey')
+        user_in = UserCreate(
+            user_id=user_id,
+            name="name",
+            surname="surname",
+            date_of_birth=date(1990, 10, 10),
+            country="Turkey",
+        )
         crud.user.create(db_session, user_in=user_in)
         user_out = crud.user.get(db_session, user_id=user_id)
         self.assertIsNotNone(user_out)
@@ -29,11 +30,10 @@ class UserTest(unittest.TestCase):
         self.assertEqual(user_out.surname, user_in.surname)
         self.assertEqual(user_out.country, user_in.country)
 
-
     def main(self):
         self.test_create_user()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     user_tests = UserTest()
     user_tests.main()

@@ -17,6 +17,6 @@ class User(Base):
 
 class Image(Base):
     image_id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(String, ForeignKey('user.user_id'), index=True)
+    user_id = Column(String, ForeignKey("user.user_id"), index=True)
     image_str = Column(String)
     image_type = Column(Integer)

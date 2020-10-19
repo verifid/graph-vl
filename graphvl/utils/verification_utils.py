@@ -21,7 +21,13 @@ from re import search
 from typing import List, Tuple, Dict
 
 
-east_path = os.getcwd() + '/graphvl' + '/' + 'text_detection_model/frozen_east_text_detection.pb'
+east_path = (
+    os.getcwd()
+    + "/graphvl"
+    + "/"
+    + "text_detection_model/frozen_east_text_detection.pb"
+)
+
 
 def create_image_file(user_id: str, image_type: ImageType) -> Tuple[str, str]:
     image = crud.image.get(db_session, user_id=user_id, image_type=ImageType.identity)
@@ -29,25 +35,25 @@ def create_image_file(user_id: str, image_type: ImageType) -> Tuple[str, str]:
         photo_data = base64.b64decode(image.image_str)
 
         if image_type == ImageType.identity:
-            path = 'identity/'
+            path = "identity/"
         else:
-            path = 'profile/'
+            path = "profile/"
 
-        directory = os.getcwd() + '/testsets/' + path +  user_id + '/'
+        directory = os.getcwd() + "/testsets/" + path + user_id + "/"
         if not os.path.exists(directory):
             os.makedirs(directory)
-        file_path = directory + 'image' + '.jpg'
-        with open(file_path, 'wb') as f:
+        file_path = directory + "image" + ".jpg"
+        with open(file_path, "wb") as f:
             f.write(photo_data)
 
         # detect face from identity image
         face_image_path = None
         if image_type == ImageType.identity:
             face_image = face_detection.detect_face(file_path)
-            face_directory = os.getcwd() + '/testsets/' + 'face/' + user_id + '/'
+            face_directory = os.getcwd() + "/testsets/" + "face/" + user_id + "/"
             if not os.path.exists(face_directory):
                 os.makedirs(face_directory)
-            face_image_path = face_directory + 'image.jpg'
+            face_image_path = face_directory + "image.jpg"
             cv2.imwrite(face_image_path, face_image)
         return (file_path, face_image_path)
     else:
@@ -55,31 +61,37 @@ def create_image_file(user_id: str, image_type: ImageType) -> Tuple[str, str]:
 
 
 def get_texts(user_id: str) -> str:
-    image_path = os.getcwd() + '/testsets/' + 'identity' + '/' + user_id + '/' + 'image.jpg'
+    image_path = (
+        os.getcwd() + "/testsets/" + "identity" + "/" + user_id + "/" + "image.jpg"
+    )
     text_recognizer = TextRecognizer(image_path, east_path)
     (image, _, _) = text_recognizer.load_image()
-    (resized_image, ratio_height, ratio_width, _, _) = text_recognizer.resize_image(image, 320, 320)
+    (resized_image, ratio_height, ratio_width, _, _) = text_recognizer.resize_image(
+        image, 320, 320
+    )
     (scores, geometry) = text_recognizer.geometry_score(east_path, resized_image)
     boxes = text_recognizer.boxes(scores, geometry)
     results = text_recognizer.get_results(boxes, image, ratio_height, ratio_width)
     if results:
-        texts = ''
+        texts = ""
         for text_bounding_box in results:
             text = text_bounding_box[1]
-            texts += text + ' '
+            texts += text + " "
         return texts
-    return ''
+    return ""
 
 
 def create_user_text_label(user: User) -> Dict:
-    user_text_label = {'PERSON': [user.name, user.surname],
-                       'DATE': user.date_of_birth,
-                       'GPE': user.country}
+    user_text_label = {
+        "PERSON": [user.name, user.surname],
+        "DATE": user.date_of_birth,
+        "GPE": user.country,
+    }
     return user_text_label
 
 
 def get_doc(texts: str, language: str) -> List[Tuple[str, str]]:
-    try: 
+    try:
         doc = ner.name(texts, language=language)
         text_label = [(X.text, X.label_) for X in doc]
         return text_label
@@ -89,7 +101,7 @@ def get_doc(texts: str, language: str) -> List[Tuple[str, str]]:
 
 def point_on_texts(text: str, value: str) -> float:
     if isinstance(value, datetime.date):
-        value = value.strftime('%d/%m/%Y')
+        value = value.strftime("%d/%m/%Y")
 
     val_len = len(value)
     text_len = len(text)
@@ -119,16 +131,18 @@ def validate_text_label(text_label: List, user_text_label: str) -> float:
 
 
 def recognize_face(user_id: str) -> List:
-    datasets_path = os.getcwd() + '/testsets/identity/' + user_id
-    encodings_path = os.path.dirname(os.path.realpath(__file__)) + '/encodings.pickle'
-    face_encoder.encode_faces(datasets=datasets_path,
-                              encodings=encodings_path,
-                              detection_method='cnn')
-    image_path = os.getcwd() + '/testsets/face/' + user_id + '/' + 'image.jpg'
-    names = recognize_faces.recognize(image_path,
-                                      datasets=datasets_path,
-                                      encodings=encodings_path,
-                                      detection_method='cnn')
+    datasets_path = os.getcwd() + "/testsets/identity/" + user_id
+    encodings_path = os.path.dirname(os.path.realpath(__file__)) + "/encodings.pickle"
+    face_encoder.encode_faces(
+        datasets=datasets_path, encodings=encodings_path, detection_method="cnn"
+    )
+    image_path = os.getcwd() + "/testsets/face/" + user_id + "/" + "image.jpg"
+    names = recognize_faces.recognize(
+        image_path,
+        datasets=datasets_path,
+        encodings=encodings_path,
+        detection_method="cnn",
+    )
     return names
 
 

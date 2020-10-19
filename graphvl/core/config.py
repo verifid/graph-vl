@@ -4,7 +4,7 @@
 import os
 
 
-def getenv_boolean(var_name: str, default_value: bool=False):
+def getenv_boolean(var_name: str, default_value: bool = False):
     result = default_value
     env_value = os.getenv(var_name)
     if env_value is not None:

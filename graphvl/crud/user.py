@@ -14,7 +14,9 @@ def get(db_session: Session, *, user_id: int) -> Optional[User]:
     return db_session.query(User).filter(User.user_id == user_id).first()
 
 
-def get_multi(db_session: Session, *, skip: int=0, limit: int=100) -> List[Optional[User]]:
+def get_multi(
+    db_session: Session, *, skip: int = 0, limit: int = 100
+) -> List[Optional[User]]:
     return db_session.query(User).offset(skip).limit(limit).all()
 
 
@@ -24,7 +26,7 @@ def create(db_session: Session, *, user_in: UserCreate) -> User:
         name=user_in.name,
         surname=user_in.surname,
         date_of_birth=user_in.date_of_birth,
-        country=user_in.country
+        country=user_in.country,
     )
     db_session.add(user)
     db_session.commit()

@@ -11,4 +11,4 @@ from graphvl.schema import Query, Mutation
 
 
 app = FastAPI()
-app.add_route('/', GraphQLApp(schema=graphene.Schema(query=Query, mutation=Mutation)))
+app.add_route("/", GraphQLApp(schema=graphene.Schema(query=Query, mutation=Mutation)))
