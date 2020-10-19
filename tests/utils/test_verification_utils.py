@@ -65,15 +65,16 @@ class VerificationUtilsTest(unittest.TestCase):
                                                                             image_type=ImageType.identity)
         verification_utils.create_image_file(user_id=user_id, image_type=ImageType.identity)
         texts = verification_utils.get_texts(user_id=user_id)
-        print(texts)
         doc = verification_utils.get_doc(texts=texts, language='en_core_web_sm')
         expected_list = [('1234567', 'DATE'),
-                         ('Card Identity National Henderso', 'ORG'),
+                         ('2009', 'CARDINAL'),
+                         ('1077', 'DATE'),
+                         ('11', 'CARDINAL'),
+                         ('London', 'GPE'),
                          ('Elizabeth', 'PERSON'),
                          ('British', 'NORP'),
-                         ('London', 'GPE'),
-                         ('11-08', 'DATE')]
-        self.assertEqual(doc, expected_list)
+                         ('7.2019', 'CARDINAL')]
+        self.assertTrue(set(expected_list).issubset(set(doc)))
 
 
     def test_create_user_text_label(self):
