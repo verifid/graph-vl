@@ -1,7 +1,7 @@
 uvicorn >= 0.11.3
 graphene >= 2.1.8
 fastapi >= 0.53.0
-starlette == 0.13.2
+starlette == 0.25.0
 mocr >= 0.4.0
 facereg >= 0.2.1.2
 ner-d == 0.3.0
